@@ -1,4 +1,0 @@
-package Habilidades;
-
-class Habilidades {
-}
