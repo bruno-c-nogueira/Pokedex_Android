@@ -33,9 +33,9 @@ class RepositoryPokedex implements PokemonModel.Repository {
                 .build();
 
 
-        RetrofitInterface jsonPlaceHolder = retrofit.create(RetrofitInterface.class);
+        RetrofitInterface retrofitInterface = retrofit.create(RetrofitInterface.class);
 
-        Call<ResponsePokemon> call = jsonPlaceHolder.getPokemons();
+        Call<ResponsePokemon> call = retrofitInterface.getPokemons();
 
         call.enqueue(new Callback<ResponsePokemon>() {
             @Override
@@ -44,10 +44,10 @@ class RepositoryPokedex implements PokemonModel.Repository {
                     ResponsePokemon pokemonResposta = response.body();
                     ArrayList<Pokemons> pokemons = pokemonResposta.getPokemons();
 
-                    for (int i = 0; i < pokemons.size() ; i++) {
-                        Pokemons p = pokemons.get(i);
-                        Log.i("POKEMONS", "onResponse: "+p.getName());
-                    }
+//                    for (int i = 0; i < pokemons.size() ; i++) {
+//                        Pokemons p = pokemons.get(i);
+//                        Log.i("POKEMONS", "onResponse: "+p.getName());
+//                    }
                     presenter.onSucessRequestPokemon(response.body());
 
                     // Do awesome stuff
@@ -59,7 +59,7 @@ class RepositoryPokedex implements PokemonModel.Repository {
 
             @Override
             public void onFailure(Call<ResponsePokemon> call, Throwable t) {
-
+                presenter.onFailureRequestPokemon(t);
             }
         });
 

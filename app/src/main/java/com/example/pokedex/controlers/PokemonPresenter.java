@@ -18,7 +18,7 @@ public class PokemonPresenter implements PokemonModel.Presenter{
     }
 
     @Override
-    public void requestLoadSpecies() {
+    public void requestLoadPokemonList() {
         repository.resquestPokemon();
     }
 
@@ -27,6 +27,11 @@ public class PokemonPresenter implements PokemonModel.Presenter{
         if(responsePokemon != null && responsePokemon.getPokemons() != null){
             view.onSucessRequestPokemon(responsePokemon);
         }
+    }
+
+    @Override
+    public void onFailureRequestPokemon(Throwable t) {
+        view.onFailureRequestPokemon(t);
     }
 
 
