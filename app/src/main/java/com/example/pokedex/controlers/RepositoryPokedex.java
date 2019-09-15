@@ -1,9 +1,8 @@
 package com.example.pokedex.controlers;
 
 import android.content.Context;
-import android.util.Log;
 
-import com.example.pokedex.model.Pokemons;
+import com.example.pokedex.model.Pokemon;
 import com.example.pokedex.service.RetrofitInterface;
 
 import java.util.ArrayList;
@@ -24,7 +23,6 @@ class RepositoryPokedex implements PokemonModel.Repository {
     }
 
 
-
     @Override
     public void resquestPokemon() {
         Retrofit retrofit = new Retrofit.Builder()
@@ -42,18 +40,11 @@ class RepositoryPokedex implements PokemonModel.Repository {
             public void onResponse(Call<ResponsePokemon> call, Response<ResponsePokemon> response) {
                 if (response.code() == 200) {
                     ResponsePokemon pokemonResposta = response.body();
-                    ArrayList<Pokemons> pokemons = pokemonResposta.getPokemons();
-
-//                    for (int i = 0; i < pokemons.size() ; i++) {
-//                        Pokemons p = pokemons.get(i);
-//                        Log.i("POKEMONS", "onResponse: "+p.getName());
-//                    }
+                    ArrayList<Pokemon> pokemons = pokemonResposta.getPokemons();
                     presenter.onSucessRequestPokemon(response.body());
-
                     // Do awesome stuff
                 } else {
                     // Handle other response codes
-
                 }
             }
 
@@ -64,7 +55,6 @@ class RepositoryPokedex implements PokemonModel.Repository {
         });
 
 
-
-        }
     }
+}
 

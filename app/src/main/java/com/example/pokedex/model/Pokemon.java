@@ -16,9 +16,12 @@ public class Pokemon {
 
     public int getNumber() {
         String[] urlParts = url.split("/");
-        return Integer.parseInt(urlParts[urlParts.length -1]);
+        return Integer.parseInt(urlParts[urlParts.length - 1]);
     }
 
+    public void setNumber(int number) {
+        this.number = number;
+    }
 
     public String getName() {
         return name;

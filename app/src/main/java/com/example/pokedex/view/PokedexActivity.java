@@ -1,19 +1,19 @@
 package com.example.pokedex.view;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
-
 import android.os.Bundle;
 import android.widget.ListView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.pokedex.R;
+import com.example.pokedex.controlers.PokemonModel;
+import com.example.pokedex.controlers.PokemonPresenter;
+import com.example.pokedex.controlers.ResponsePokemon;
 import com.example.pokedex.database.PokemonDatabase;
 import com.example.pokedex.database.RoomPokemonDao;
 import com.example.pokedex.model.Pokemon;
 import com.example.pokedex.view.adapter.AdapterListaPokemons;
-import com.example.pokedex.controlers.PokemonModel;
-import com.example.pokedex.controlers.PokemonPresenter;
-import com.example.pokedex.R;
-import com.example.pokedex.controlers.ResponsePokemon;
+
 import java.util.ArrayList;
 
 public class PokedexActivity extends AppCompatActivity implements PokemonModel.View {
@@ -25,8 +25,6 @@ public class PokedexActivity extends AppCompatActivity implements PokemonModel.V
     private ListView listaPokemons;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,10 +32,10 @@ public class PokedexActivity extends AppCompatActivity implements PokemonModel.V
 
         presenter = new PokemonPresenter(this, this);
         presenter.requestLoadPokemonList();
-        PokemonDatabase dataBase =  PokemonDatabase.getInstance(PokedexActivity.this);
+        PokemonDatabase dataBase = PokemonDatabase.getInstance(PokedexActivity.this);
         dao = dataBase.getRoomDao();
-        listaPokemons =  findViewById(R.id.listViewPokemons);
-        listaPokemons.setAdapter(new AdapterListaPokemons(dao.buscaPokemon(),this) );
+        listaPokemons = findViewById(R.id.listViewPokemons);
+        listaPokemons.setAdapter(new AdapterListaPokemons(dao.buscaPokemon(), this));
 
 
     }
