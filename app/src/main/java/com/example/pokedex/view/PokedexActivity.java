@@ -1,23 +1,25 @@
 package com.example.pokedex.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
 import android.os.Bundle;
 import android.widget.ListView;
 
+import com.example.pokedex.database.PokemonDatabase;
+import com.example.pokedex.database.RoomPokemonDao;
+import com.example.pokedex.model.Pokemon;
 import com.example.pokedex.view.adapter.AdapterListaPokemons;
 import com.example.pokedex.controlers.PokemonModel;
 import com.example.pokedex.controlers.PokemonPresenter;
-import com.example.pokedex.model.Pokemons;
 import com.example.pokedex.R;
 import com.example.pokedex.controlers.ResponsePokemon;
-import com.example.pokedex.view.dao.ListPokemonDao;
-
 import java.util.ArrayList;
 
 public class PokedexActivity extends AppCompatActivity implements PokemonModel.View {
     //
     PokemonPresenter presenter;
+    RoomPokemonDao dao;
     //Requisição backend
 
     private ListView listaPokemons;
@@ -32,6 +34,11 @@ public class PokedexActivity extends AppCompatActivity implements PokemonModel.V
 
         presenter = new PokemonPresenter(this, this);
         presenter.requestLoadPokemonList();
+        PokemonDatabase dataBase =  PokemonDatabase.getInstance(PokedexActivity.this);
+        dao = dataBase.getRoomDao();
+        listaPokemons =  findViewById(R.id.listViewPokemons);
+        listaPokemons.setAdapter(new AdapterListaPokemons(dao.buscaPokemon(),this) );
+
 
     }
 
@@ -42,9 +49,11 @@ public class PokedexActivity extends AppCompatActivity implements PokemonModel.V
 
     @Override
     public void onSucessRequestPokemon(ResponsePokemon responsePokemon) {
-        ListPokemonDao.listaPokemon = responsePokemon.getPokemons();
-        listaPokemons =  findViewById(R.id.listViewPokemons);
-        listaPokemons.setAdapter(new AdapterListaPokemons(ListPokemonDao.listaPokemon,this) );
+        ArrayList<Pokemon> pokemons = responsePokemon.getPokemons();
+        if (dao.buscaPokemon().size() == 0) {
+            dao.salvaPokemon(pokemons);
+        }
+        dao.editaPokemon(pokemons);
 
 
     }
